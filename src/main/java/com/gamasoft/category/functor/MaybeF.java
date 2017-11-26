@@ -1,5 +1,7 @@
 package com.gamasoft.category.functor;
 
+import io.vavr.Function1;
+
 import java.util.function.Function;
 
 public class MaybeF<T> implements Functor<MaybeF, T> {
@@ -19,7 +21,7 @@ public class MaybeF<T> implements Functor<MaybeF, T> {
     }
 
     @Override
-    public <U> MaybeF<U> fMap(Function<T, U> f) {
+    public <U> MaybeF<U> fMap(Function1<T, U> f) {
 
         if (value != null)
             return some(f.apply(value));

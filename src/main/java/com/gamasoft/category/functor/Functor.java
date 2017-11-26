@@ -1,13 +1,11 @@
 package com.gamasoft.category.functor;
 
-import io.vavr.collection.List;
-
-import java.util.function.Function;
+import io.vavr.Function1;
 
 
 public interface Functor<TC, T> {  //T<?> or TC<T> don't compile
 
-    <U> TC fMap(Function<T, U> f);
+    <U> TC fMap(Function1<T, U> f);
 
 }
 
