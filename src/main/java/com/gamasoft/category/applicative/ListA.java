@@ -1,17 +1,12 @@
 package com.gamasoft.category.applicative;
 
+import com.gamasoft.category.functor.ListF;
 import io.vavr.Function1;
 import io.vavr.Function2;
 import io.vavr.collection.List;
 
 
-public class ListA<T> implements Applicative<List, T> {
-
-    List<T> list;
-
-    public ListA(List<T> list) {
-        this.list = list;
-    }
+public class ListA<T> extends ListF<T> implements Applicative<List, T> {
 
     @Override
     public List<T> pure(T value) {
@@ -19,12 +14,17 @@ public class ListA<T> implements Applicative<List, T> {
     }
 
     @Override
-    public List apply(List f) {
-        return applyr(f);
+    public List apply(List f, List a) {
+        return applyK(f, a);
+    }
+
+    @Override
+    public <U, V> List map2(Function2<T, U, V> f, List a, List b) {
+        return map2K(f, a, b);
     }
 
 
-    public <U> List<U> applyr(List<Function1<T, U>> fa) {
+    public <U> List<U> applyK(List<Function1<T, U>> fa, List<T> list) {
 
         List<U> res = List.empty();
 
@@ -35,21 +35,11 @@ public class ListA<T> implements Applicative<List, T> {
         return res;
     }
 
-    public <A, B> List<B> map2r(Function2<T, A, B> f, List<A> a) {
-        List<Function1<T, B>> lf = a.map( x -> f.reversed().curried().apply(x));
-        return applyr(lf);
-    }
-
-
-    @Override
-    public <A, B> List<B> map2(Function2<T, A, B> f, List a) {
-        return map2r(f, a);
+    public <U, V> List<V> map2K(Function2<T, U, V> f, List<T> a, List<U> b) {
+        List<Function1<T, V>> lf = b.map( x -> f.reversed().curried().apply(x));
+        return applyK(lf, a);
     }
 
 
 
-    @Override
-    public <U> List<U> fMap(Function1<T, U> f) {
-        return list.map(f);
-    }
 }

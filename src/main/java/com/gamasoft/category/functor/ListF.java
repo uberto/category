@@ -4,24 +4,16 @@ import com.gamasoft.category.monoid.Monoid;
 import io.vavr.Function1;
 import io.vavr.collection.List;
 
-import java.util.function.Function;
-
 public class ListF<T> implements Functor<List, T> {
 
-    private List<T> list;
-
-    public ListF(List<T> list) {
-        this.list = list;
-    }
-
-    public T combine(Monoid<T> monoid){
-        return monoid.combine(list);
+    public T combine(Monoid<T> monoid, List<T> container){
+        return monoid.combine(container);
     }
 
     @Override
-    public <U> List<U> fMap(Function1<T, U> f) {
+    public <U> List<U> fMap(Function1<T, U> f, List container) {
         //Java allows us to specify List<U> as result but not in the params
-        return list.map(f);
+        return container.map(f);
     }
 
 }

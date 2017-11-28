@@ -9,14 +9,16 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class ListFTest {
 
 
+    ListF<Integer> listIntFunctor = new ListF<>();
+    ListF<String> listStrFunctor = new ListF<>();
+
     @Test
     void fmap() {
 
         List<Integer> ints = List.of(1, 2, 3, 4, 5);
-        List<String> strList = new ListF<>(ints).fMap(String::valueOf);
+        List<String> strList = listIntFunctor.fMap(String::valueOf, ints);
 
-        ListF<String> strF = new ListF<>(strList);
-        String all =   strF.combine(new CommaStrM());
+        String all =  listStrFunctor.combine(new CommaStrM(), strList);
         assertThat(all).isEqualTo("1, 2, 3, 4, 5");
 
     }

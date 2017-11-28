@@ -10,7 +10,7 @@ public interface Applicative<TC, T> extends Functor<TC, T> {
 
     TC pure(T value);
 
-    TC apply(TC f);  //TC<B> apply(TC<Function<T, B> f)
+    TC apply(TC f, TC a);  //TC<B> apply(TC<Function<T, B> f)
 
-    <A,B> TC map2(Function2<T,A,B> f, TC a);
+    <U,V> TC map2(Function2<T,U,V> f, TC a, TC b);
 }
